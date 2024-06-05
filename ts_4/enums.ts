@@ -1,5 +1,5 @@
-const TOP = "Top";
-const RIGHT = "Right";
+// const TOP = "Top";
+// const RIGHT = "Right";
 
 enum Directions {
   TOP,
@@ -8,11 +8,23 @@ enum Directions {
   BOTTOM,
 }
 
-enum
+enum TimingFunc {
+  EASE = "ease",
+  EASE_IN = `${EASE}-in`,
+  LINEAR = "linear",
+}
 
-// function frame(elem: string, dir: Directions, tFunc: string): void {
-//   if (dir === Directions.BOTTOM) {
-//   }
-// }
+enum TimingFuncN {
+  EASE = 1,
+  EASE_IN = 2,
+  LINEAR = 3,
+}
 
-// frame("id", Directions.BOTTOM, "fast");
+function frame(elem: string, dir: Directions, tFunc: TimingFunc): void {
+  if (dir === Directions.BOTTOM) {
+    console.log(tFunc);
+  }
+  console.log(tFunc);
+}
+
+frame("id", Directions.BOTTOM, TimingFunc.LINEAR);

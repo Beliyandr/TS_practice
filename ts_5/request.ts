@@ -7,29 +7,34 @@
 
 type Animal = "cat" | "dog" | "bird";
 
-interface Request {
+enum AvailableStatus {
+  Available = "available",
+  NotAvailable = "not available",
+}
+
+interface AnimalData {
   animal: Animal;
   breed: string;
   sterilized?: string;
 }
 
-interface Response1 {
-  status: "available";
-  data: {
-    animal: Animal;
-    breed: string;
-    sterilized?: string;
-    location: string;
-    age?: number;
-  };
+interface AnimalAvailableData extends AnimalData {
+  location: string;
+  age?: number;
 }
 
-interface Response2 {
-  status: "not available";
-  data: {
-    message: string;
-    nextUpdateIn: Date;
-  };
+interface AnimalNotAvailableData {
+  message: string;
+  nextUpdateIn: Date;
+}
+
+interface AnimalAvailableResponse {
+  status: AvailableStatus.Available;
+  data: AnimalAvailableData;
+}
+interface AnimalNotAvailableResponse {
+  status: AvailableStatus.NotAvailable;
+  data: AnimalNotAvailableData;
 }
 
 // Response #1
@@ -55,23 +60,22 @@ interface Response2 {
 //     }
 // }
 
-function checkAnimalData(animal: Response1 | Response2) {
-  if (animal.status === "available") {
+function isAvailable(
+  res: AnimalAvailableResponse | AnimalNotAvailableResponse
+): res is AnimalAvailableResponse {
+  if (res.status === AvailableStatus.Available) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkAnimalData(
+  animal: AnimalAvailableResponse | AnimalNotAvailableResponse
+): AnimalData | string {
+  if (animal.status === AvailableStatus.Available) {
     return animal.data;
   } else {
     return `${animal.data}, you can try in ${animal.data.nextUpdateIn}`;
   }
 }
-
-const anim = {
-  status: "available",
-  data: {
-    animal: "cat",
-    breed: "sdf",
-    sterilized: "sdf",
-    location: "UK",
-    age: 15,
-  },
-};
-
-checkAnimalData(anim);

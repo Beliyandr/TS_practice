@@ -51,7 +51,8 @@ function repairVehicle(vehicle: Vehicle): void {
       console.log(vehicle.wings);
       break;
 
-    case "smth"TS      console.log(vehicle.wings);
+    case "smth":
+      console.log(vehicle.wings);
       break;
 
     default:

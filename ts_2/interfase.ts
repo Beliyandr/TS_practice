@@ -21,7 +21,7 @@ interface ConfigWithRole extends Config, Role {}
 // type ConfigWithRole = Config & Role;
 
 const serverConfig: ConfigWithRole = {
-  protocol: "https",
+  protocol: 'https',
   port: 3001,
   role: "admin",
   log: (mgs: string): void => console.log(mgs),

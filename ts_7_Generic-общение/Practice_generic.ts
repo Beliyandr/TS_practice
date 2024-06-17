@@ -1,24 +1,24 @@
 // Создать Generic-интерфейс PlayerData, который подходил бы для создания таких объектов:
 
-interface Player<T,R> {
-  game: T,
-  hours:
- }
+interface PlayerData<Game, Hours> {
+  game: Game;
+  hours: Hours;
+  server: string;
+}
 
-
-const player1 = {
+const player1: PlayerData<string, number> = {
   game: "CS:GO",
   hours: 300,
   server: "basic",
 };
 
-const player2 = {
+const player2: PlayerData<number, string> = {
   game: 2048,
   hours: "300 h.",
   server: "arcade",
 };
 
-const player3 = {
+const player3: PlayerData<string, object> = {
   game: "Chess",
   hours: {
     total: 500,
@@ -26,9 +26,6 @@ const player3 = {
   },
   server: "chess",
 };
-
-
-
 
 // Массив данных с фигурами содержит объекты, у каждого из которых обязательно есть свойство name
 // Каждый объект может еще содержать дополнительные свойства в случайном виде
@@ -39,6 +36,13 @@ const player3 = {
 // С текущими данными в консоль должно попадать:
 // { squares: 3, circles: 2, triangles: 2, others: 1 }
 
+enum FigureName {
+  Rect = "rect",
+  Circle = "circle",
+  Triangles = "triangles",
+  Line = "line",
+}
+
 interface AmountOfFigures {
   squares: number;
   circles: number;
@@ -46,39 +50,87 @@ interface AmountOfFigures {
   others: number;
 }
 
-function calculateAmountOfFigures(figure): AmountOfFigures {}
+interface Figure {
+  name: FigureName;
+}
 
-const data = [
+function calculateAmountOfFigures<T extends Figure>(
+  figure: T[]
+): AmountOfFigures {
+  const amount: AmountOfFigures = {
+    squares: 0,
+    circles: 0,
+    triangles: 0,
+    others: 0,
+  };
+
+  figure.forEach((fig) => {
+    switch (fig.name) {
+      case FigureName.Rect:
+        amount.squares++;
+        break;
+      case FigureName.Circle:
+        amount.circles++;
+        break;
+      case FigureName.Triangles:
+        amount.triangles++;
+        break;
+      default:
+        amount.others++;
+        break;
+    }
+  });
+
+  return amount;
+}
+
+interface CustomFigure extends Figure {
+  data?: {};
+}
+
+const data: CustomFigure[] = [
   {
-    name: "rect",
+    name: FigureName.Rect,
     data: { a: 5, b: 10 },
   },
   {
-    name: "rect",
+    name: FigureName.Rect,
     data: { a: 6, b: 11 },
   },
   {
-    name: "triangle",
+    name: FigureName.Triangles,
     data: { a: 5, b: 10, c: 14 },
   },
   {
-    name: "line",
+    name: FigureName.Line,
     data: { l: 15 },
   },
   {
-    name: "circle",
+    name: FigureName.Circle,
     data: { r: 10 },
   },
   {
-    name: "circle",
+    name: FigureName.Circle,
     data: { r: 5 },
   },
   {
-    name: "rect",
+    name: FigureName.Rect,
     data: { a: 15, b: 7 },
   },
   {
-    name: "triangle",
+    name: FigureName.Rect,
+    data: { a: 15, b: 7 },
+  },
+  {
+    name: FigureName.Rect,
+    data: { a: 15, b: 7 },
+  },
+  {
+    name: FigureName.Rect,
+    data: { a: 15, b: 7 },
+  },
+  {
+    name: FigureName.Triangles,
   },
 ];
 

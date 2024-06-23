@@ -25,17 +25,25 @@ interface IClient {
 }
 
 type CurrentClient = Omit<IClient, "makeCallFor">;
+type ExClient = Omit<IClient, "timeLeft">;
+type FutureClient = Pick<IClient, "name" | "makeCallFor">;
 
 interface FitnesCenter {
   clubName: string;
   location: string;
 }
 
-// interface FutureClasses extends Classes {
-//   willStartsAt: string;
-// }
+interface IFitnesClub {
+  clubName: string;
+  location: string;
+  classes: IFitnesClasses[];
+  futureClasses: IFutureClass[];
+  currClients: CurrentClient[];
+  exClients: ExClient[];
+  futureClients: FutureClient[];
+}
 
-const fitnessClubCenter = {
+const fitnessClubCenter: IFitnesClub = {
   clubName: "Fitness club Center",
   location: "central ave. 45, 5th floor",
   classes: [
